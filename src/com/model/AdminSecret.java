@@ -1,19 +1,19 @@
 package com.model;
 
 public class AdminSecret {
-    private String empid;
+    private long empid;
     private String secret;
-    public AdminSecret(String empid,String secret){
+    public AdminSecret(long empid,String secret){
         this.empid = empid;
         this.secret = secret;
     }
-    public void setEmpid(String empid){
+    public void setEmpid(long empid){
         this.empid=empid;
     }
     public void setSecret(String secret){
         this.secret=secret;
     }
-    public String getEmpid(){
+    public long getEmpid(){
         return empid;
     }
     public String getSecret(){

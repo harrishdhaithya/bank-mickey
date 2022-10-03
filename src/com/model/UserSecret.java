@@ -1,19 +1,19 @@
 package com.model;
 
 public class UserSecret {
-    private String accno;
+    private long accno;
     private String secret;
-    public UserSecret(String accno,String secret){
+    public UserSecret(long accno,String secret){
         this.accno = accno;
         this.secret = secret;
     }
-    public void setAccno(String accno){
+    public void setAccno(long accno){
         this.accno=accno;
     }
     public void setSecret(String secret){
         this.secret=secret;
     }
-    public String getAccno(){
+    public long getAccno(){
         return accno;
     }
     public String getSecret(){

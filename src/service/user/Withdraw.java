@@ -29,7 +29,8 @@ public class Withdraw extends HttpServlet {
             if(session==null){
                 resp.sendRedirect("/bank");
             }
-            boolean success = Bank.withdraw((String)session.getAttribute("accno"), amount);
+            long accno = Long.parseLong((String)session.getAttribute("accno"));
+            boolean success = Bank.withdraw(accno, amount);
             if(!success){
                 resp.setStatus(500);
                 resp.setContentType("text/plain");
@@ -55,6 +56,7 @@ public class Withdraw extends HttpServlet {
             resp.setStatus(500);
             resp.setContentType("text/plain");
             out.println("Null values are not accepted...");
+            return;
         }
     }
 }

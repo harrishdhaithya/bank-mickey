@@ -5,7 +5,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 public class User {
 	// private UUID accno;
-	private String accno;
+	private long accno;
 	private String fname;
 	private String lname;
 	private String phone;
@@ -14,7 +14,6 @@ public class User {
 	private String passwordHash;
 	public User(String fname, String lname, String phone, String email, String password, double balance) {
 		// this.accno = UUID.randomUUID();
-		this.accno = createAccNo();
 		this.fname = fname;
 		this.lname = lname;
 		this.phone = phone;
@@ -23,7 +22,7 @@ public class User {
 		this.balance = balance;
 		this.passwordHash = getHash(password);
 	}
-	public User(String accno, String fname, String lname, String phone, String email,String passwordHash, double balance) {
+	public User(long accno, String fname, String lname, String phone, String email,String passwordHash, double balance) {
 		this.accno = accno;
 		this.fname = fname;
 		this.lname = lname;
@@ -69,7 +68,7 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getAccno() {
+	public long getAccno() {
 		return accno;
 	}
 	public double getBalance() {

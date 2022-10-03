@@ -24,10 +24,10 @@ public class Transaction extends HttpServlet{
         }
         try{
             JSONObject obj = new JSONObject(sb.toString());
-            String accno = obj.getString("accno");
+            String to = obj.getString("accno");
             double amount = Double.parseDouble(obj.getString("amount"));
             HttpSession session = req.getSession(false);
-            if(accno==null){
+            if(to==null){
                 resp.setStatus(400);
                 resp.setContentType("text/html");
                 out.println("All the fields are required...");
@@ -40,7 +40,8 @@ public class Transaction extends HttpServlet{
                 resp.sendRedirect("/bank");
                 return;
             }
-            boolean success = Bank.makeTransaction((String)session.getAttribute("accno"), accno, amount);
+            long from = Long.parseLong((String)session.getAttribute("accno"));
+            boolean success = Bank.makeTransaction(from, Long.parseLong(to), amount);
             if(success){
                 resp.setStatus(200);
                 resp.setContentType("text/plain");

@@ -15,7 +15,7 @@ import com.model.UserSecret;
 
 public class UserSecretDao {
     public boolean saveSecret(UserSecret us) {
-        String accno = us.getAccno();
+        long accno = us.getAccno();
         String secret = us.getSecret();
         Row r = new Row("UserSecret");
         r.set("ACCNO", accno);
@@ -31,7 +31,7 @@ public class UserSecretDao {
         }
         return false;
     }
-    public String getSecret(String accno){
+    public String getSecret(long accno){
         try{
             Criteria c = new Criteria(new Column("UserSecret","ACCNO"),accno , QueryConstants.EQUAL);
             DataObject dobj = DataAccess.get("UserSecret", c);

@@ -15,7 +15,7 @@ import com.model.AdminSecret;
 
 public class AdminSecretDao {
     public boolean saveSecret(AdminSecret a){
-            String empid = a.getEmpid();
+            long empid = a.getEmpid();
             String secret = a.getSecret();
             Row row = new Row("AdminSecret");
             row.set("EMPID", empid);
@@ -31,7 +31,7 @@ public class AdminSecretDao {
         }
         return false;
     }
-    public String getSecret(String empid){
+    public String getSecret(long empid){
         Criteria c = new Criteria(new Column("AdminSecret", "EMPID"), empid, QueryConstants.EQUAL);
         try{
             DataObject dObj = DataAccess.get("AdminSecret", c);

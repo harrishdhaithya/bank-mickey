@@ -1,6 +1,8 @@
 package com.dao;
 
 import java.util.*;
+import javax.transaction.TransactionManager;
+import com.Singleton.Singleton;
 import com.adventnet.ds.query.Column;
 import com.adventnet.ds.query.Criteria;
 import com.adventnet.ds.query.QueryConstants;
@@ -12,6 +14,7 @@ import com.adventnet.persistence.Persistence;
 import com.adventnet.persistence.Row;
 import com.adventnet.persistence.WritableDataObject;
 import com.model.Admin;
+import com.model.AdminSecret;
 
 public class AdminDao {
     public List<Admin> getAllAdmins(){
@@ -21,7 +24,7 @@ public class AdminDao {
             Iterator<Row> it = dObj.getAddedRows("Admin");
             while(it.hasNext()){
                 Row r = it.next();
-                String empid = r.getString("EMPID");
+                long empid = r.getLong("EMPID");
                 String email = r.getString("EMAIL");
                 String name = r.getString("NAME");
                 String phone = r.getString("PHONE");
@@ -34,7 +37,7 @@ public class AdminDao {
         }
         return admins;
     }
-    public Admin getAdminByEmpId(String empid){
+    public Admin getAdminByEmpId(long empid){
         Admin a = null;
         Criteria c = new Criteria(new Column("Admin", "EMPID"), empid, QueryConstants.EQUAL);
         try {
@@ -61,7 +64,7 @@ public class AdminDao {
             Iterator<?> it = dobj.getRows("Admin");
             if(it.hasNext()){
                 Row r = (Row)it.next();
-                String empid = r.getString("EMPID");
+                long empid = r.getLong("EMPID");
                 String name = r.getString("NAME");
                 String phone = r.getString("PHONE");
                 String passwordHash = r.getString("PASSWORD");
@@ -73,13 +76,13 @@ public class AdminDao {
         return a;
     }
     public boolean saveAdmin(Admin a){
-        String empid = a.getEmpid();
+        long empid = a.getEmpid();
         String name = a.getName();
         String phone = a.getPhone();
         String email = a.getEmail();
         String passwordhash = a.getPasswordHash();
         Row row = new Row("Admin");
-        row.set("EMPID", empid);
+        // row.set("EMPID", empid);
         row.set("NAME", name);
         row.set("PHONE", phone);
         row.set("EMAIL", email);
@@ -91,8 +94,29 @@ public class AdminDao {
             per.add(dobj);
             return true;
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
+        }
+        return false;
+    }
+    public boolean addAdmin(Admin a, String secert){
+        TransactionManager tm = DataAccess.getTransactionManager();
+        try{
+            tm.begin();
+            {
+                AdminSecretDao asdao = Singleton.getAdminSecretDao();
+                boolean s1 = this.saveAdmin(a);
+                boolean s2 = asdao.saveSecret(new AdminSecret(this.getAdminByEmail(a.getEmail()).getEmpid(), secert));
+                boolean success = s1&&s2;
+                if(success){
+                    tm.commit();
+                    return true;
+                }else{
+                    tm.rollback();
+                    return false;
+                }
+            }
+        }catch(Exception ex){
+            ex.printStackTrace();
         }
         return false;
     }

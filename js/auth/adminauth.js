@@ -21,10 +21,13 @@ function adminsignin(event) {
             console.log("Redirecting...");
             location.href='/bank1/auth/evalsecret.jsp';
             return;
+        }else{
+            resp.text().then(text=>{
+                alert(text);
+            });
         }
     }).catch(err=>{
         alert(err);
-        console.log(err);
     });
 }
 

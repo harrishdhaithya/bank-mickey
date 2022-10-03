@@ -5,6 +5,7 @@ import java.util.*;
 
 import javax.transaction.TransactionManager;
 
+import com.Singleton.Singleton;
 import com.adventnet.ds.query.Column;
 import com.adventnet.ds.query.Criteria;
 import com.adventnet.ds.query.QueryConstants;
@@ -18,6 +19,7 @@ import com.adventnet.persistence.Persistence;
 import com.adventnet.persistence.Row;
 import com.adventnet.persistence.WritableDataObject;
 import com.model.User;
+import com.model.UserSecret;
 
 public class UserDao {
     public List<User> getAllUsers(){
@@ -27,7 +29,7 @@ public class UserDao {
             Iterator<?> itr = dObj.getRows("Users");
             while(itr.hasNext()){
                 Row row = (Row)itr.next();
-                String accno = row.getString("ACCNO");
+                long accno = row.getLong("ACCNO");
                 String fname = row.getString("FNAME");
                 String lname = row.getString("LNAME");
                 String phone = row.getString("PHONE");
@@ -43,7 +45,7 @@ public class UserDao {
         }
         return users;
     }
-    public User getUserByAccno(String accno){
+    public User getUserByAccno(long accno){
         Criteria c = new Criteria(new Column("Users", "ACCNO"), accno, QueryConstants.EQUAL);
         User u = null;
         try{
@@ -72,7 +74,7 @@ public class UserDao {
             Iterator<?> it = dObj.getRows("Users");
             if(it.hasNext()){
                 Row row = (Row)it.next();
-                String accno = row.getString("ACCNO");
+                long accno = row.getLong("ACCNO");
                 String fname = row.getString("FNAME");
                 String lname = row.getString("LNAME");
                 String phone = row.getString("PHONE");
@@ -100,7 +102,7 @@ public class UserDao {
         return false;
     }
     public boolean saveUser(User u){
-        String accno = u.getAccno();
+        // long accno = u.getAccno();
         String fname = u.getFname();
         String lname = u.getLname();
         String email = u.getEmail();
@@ -109,7 +111,7 @@ public class UserDao {
         Double balance = u.getBalance();
         DataObject dObj = new WritableDataObject();
         Row row = new Row("Users");
-        row.set("ACCNO", accno);
+        // row.set("ACCNO", accno);
         row.set("FNAME", fname);
         row.set("LNAME", lname);
         row.set("EMAIL", email);
@@ -123,6 +125,31 @@ public class UserDao {
             return true;
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        return false;
+    }
+    public boolean addUser(User user,String secret){
+        TransactionManager tm = DataAccess.getTransactionManager();
+        boolean success = false;
+        try{
+            tm.begin();
+            {
+                boolean s1 = this.saveUser(user);
+                UserSecretDao usdao = Singleton.getUserSecretDao();
+                UserDao udao = Singleton.getUserDao();
+                System.out.println(udao.getUserByEmail(user.getEmail()).getAccno());
+                boolean s2 = usdao.saveSecret(new UserSecret(udao.getUserByEmail(user.getEmail()).getAccno(), secret));
+                success = s1&&s2;
+                if(success){
+                    tm.commit();
+                    return true;
+                }else{
+                    tm.rollback();
+                    return false;
+                }
+            }
+        }catch(Exception ex){
+            ex.printStackTrace();
         }
         return false;
     }

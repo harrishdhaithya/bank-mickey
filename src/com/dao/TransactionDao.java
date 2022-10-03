@@ -30,8 +30,8 @@ public class TransactionDao {
             while(itr.hasNext()){
                 Row row = (Row)itr.next();
                 int id = row.getLong("ID").intValue();
-                String src = row.getString("SRC");
-                String dest = row.getString("DEST");
+                long src = row.getLong("SRC");
+                long dest = row.getLong("DEST");
                 double amount = row.getBigDecimal("AMOUNT").doubleValue();
                 Date date = row.getDate("DATE");
                 Time time = row.getTime("TIME");
@@ -52,8 +52,8 @@ public class TransactionDao {
             while(it.hasNext()){
                 Row r = (Row)it.next();
                 int id = r.getLong("ID").intValue();
-                String src = r.getString("SRC");
-                String dest = r.getString("DEST");
+                long src = r.getLong("SRC");
+                long dest = r.getLong("DEST");
                 double amount = r.getBigDecimal("AMOUNT").doubleValue();
                 Time time = r.getTime("TIME");
                 Transaction t = new Transaction(id, src, dest, amount, date, time.toString());
@@ -74,8 +74,8 @@ public class TransactionDao {
             while(it.hasNext()){
                 Row r = (Row)it.next();
                 int id = r.getLong("ID").intValue();
-                String src = r.getString("SRC");
-                String dest = r.getString("DEST");
+                long src = r.getLong("SRC");
+                long dest = r.getLong("DEST");
                 double amount = r.getBigDecimal("AMOUNT").doubleValue();
                 Date date = r.getDate("DATE");
                 Time time = r.getTime("TIME");
@@ -87,7 +87,7 @@ public class TransactionDao {
         }
         return transactions;
     }
-    public List<Transaction> getTransactionsByAccno(String accno){
+    public List<Transaction> getTransactionsByAccno(long accno){
         List<Transaction> transactions = new ArrayList<>();
         Criteria c = new Criteria(new Column("Transaction", "SRC"), accno,QueryConstants.EQUAL);
         try{
@@ -96,8 +96,8 @@ public class TransactionDao {
             while(it.hasNext()){
                 Row r = (Row)it.next();
                 int id = r.getLong("ID").intValue();
-                String src = r.getString("SRC");
-                String dest = r.getString("DEST");
+                long src = r.getLong("SRC");
+                long dest = r.getLong("DEST");
                 double amount = r.getBigDecimal("AMOUNT").doubleValue();
                 Date date = r.getDate("DATE");
                 Time time = r.getTime("TIME");
@@ -109,7 +109,7 @@ public class TransactionDao {
         }
         return transactions;
     }
-    public boolean writeTransaction(String src, String dest,double amount){
+    public boolean writeTransaction(long src, long dest,double amount){
         Row row = new Row("Transaction");
         row.set("SRC", src);
         row.set("DEST", dest);
@@ -119,7 +119,6 @@ public class TransactionDao {
         DataObject dObj = new WritableDataObject();
         try{
             dObj.addRow(row);
-            System.out.println(Do2XmlConverter.getXmlFromDO(dObj, "iq", true).toString());
             Persistence per = (Persistence)BeanUtil.lookup("Persistence");
             per.add(dObj);
             return true;

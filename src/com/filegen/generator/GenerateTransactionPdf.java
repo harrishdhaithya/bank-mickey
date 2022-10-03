@@ -18,7 +18,7 @@ public class GenerateTransactionPdf {
             transactions = tdao.getAllTransaction();
         }else if(filter.get("name").equals("accno")){
             String accno = filter.get("accno");
-            transactions = tdao.getTransactionsByAccno(accno);
+            transactions = tdao.getTransactionsByAccno(Long.parseLong(accno));
         }else if(filter.get("name").equals("date")){
             String from = filter.get("from");
             String to = filter.get("to");

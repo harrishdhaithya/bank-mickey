@@ -30,11 +30,8 @@ public class Otp extends HttpServlet {
         if(otp.equals(aotp)){
             User u = (User)session.getAttribute("user");
             String secret = TwoFAAuth.generateSecretKey();
-            UserSecretDao usdao = Singleton.getUserSecretDao();
-            UserSecret us = new UserSecret(u.getAccno(), secret);
             UserDao udao = Singleton.getUserDao();
-            boolean success = udao.saveUser(u)&&usdao.saveSecret(us);
-
+            boolean success = udao.addUser(u, secret);
             if(success){
                 resp.setContentType("text/plain");
                 session.invalidate();

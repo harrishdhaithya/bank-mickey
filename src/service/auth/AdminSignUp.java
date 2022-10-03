@@ -10,9 +10,7 @@ import org.json.JSONObject;
 import com.Singleton.Singleton;
 import com.controller.TwoFAAuth;
 import com.dao.AdminDao;
-import com.dao.AdminSecretDao;
 import com.model.Admin;
-import com.model.AdminSecret;
 
 public class AdminSignUp extends HttpServlet {
     @Override
@@ -31,11 +29,8 @@ public class AdminSignUp extends HttpServlet {
         Admin a = new Admin(name, phone, email, password);
         AdminDao adao = Singleton.getAdminDao();
         String secret = TwoFAAuth.generateSecretKey();
-        AdminSecret as = new AdminSecret(a.getEmpid(), secret);
-        AdminSecretDao asdao = Singleton.getAdminSecretDao();
-        boolean s1 = adao.saveAdmin(a);
-        boolean s2 = asdao.saveSecret(as);
-        if (s1 && s2) {
+        boolean success = adao.addAdmin(a, secret);
+        if (success) {
             JSONObject jobj = new JSONObject();
             jobj.put("status", "success");
             jobj.put("secret", secret);

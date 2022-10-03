@@ -9,8 +9,8 @@
 %>
         <div class="transaction-box">
             <p>Transaction id: <%=t.getId()%></p>
-            <p>Source Account Number: <%=t.getSrc()%></p>
-            <p>Destination Account Number: <%=t.getDest()%></p>
+            <p>Source Account Number: <%=Long.toString(t.getSrc())%></p>
+            <p>Destination Account Number: <%=Long.toString(t.getDest())%></p>
             <p>Amount: <%=t.getAmount()%></p>
             <p>Date: <%=t.getDate()%></p>
             <p>Time: <%=t.getTime()%></p>

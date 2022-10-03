@@ -4,7 +4,6 @@ import com.Singleton.Singleton;
 import com.dao.TransactionDao;
 import com.dao.UserDao;
 import com.dao.UserSecretDao;
-import com.model.Admin;
 import com.model.User;
 import com.model.UserSecret;
 
@@ -28,13 +27,13 @@ public class Bank {
 		System.out.println("Your Secret for Google Authenticator is "+secret);
 		return success&&usdao.saveSecret(us);
 	}
-	public static boolean deposit(String accno,double amount) {
+	public static boolean deposit(long accno,double amount) {
 		UserDao u = Singleton.getUserDao();
 		User user = u.getUserByAccno(accno);
 		user.setBalance(user.getBalance()+amount);
 		return u.updateUser(user);
 	}
-	public static boolean withdraw(String accno,double amount) {
+	public static boolean withdraw(long accno,double amount) {
 		UserDao u = Singleton.getUserDao();
 		User user = u.getUserByAccno(accno);
 		if(user.getBalance()<amount){
@@ -43,9 +42,9 @@ public class Bank {
 		user.setBalance(user.getBalance()-amount);
 		return u.updateUser(user);
 	}
-	public static boolean makeTransaction(String srcacc,String to,double amount) {
+	public static boolean makeTransaction(long srcacc,long to,double amount) {
 		UserDao u = Singleton.getUserDao();
-		if(srcacc.equals(to)){
+		if(srcacc==to){
 			return false;
 		}
 		User src = u.getUserByAccno(srcacc);

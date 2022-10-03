@@ -42,7 +42,7 @@
                 for(User user:users){
            %>
                 <div class="user-box">
-                    <p>Account Number: <%=user.getAccno()%></p>
+                    <p>Account Number: <%=Long.toString(user.getAccno())%></p>
                     <p>Name: <%=user.getFname()+" "+user.getLname()%></p>
                     <p>Email: <%=user.getEmail()%></p>
                     <p>Phone Number: <%=user.getPhone()%></p>

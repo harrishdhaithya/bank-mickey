@@ -2,17 +2,17 @@ package com.model;
 
 public class Transaction {
     private int id;
-    private String src;
-    private String dest;
+    private long src;
+    private long dest;
     private double amount;
     private String date;
     private String time;
-    public Transaction(String src,String dest,double amount){
+    public Transaction(long src,long dest,double amount){
         this.src=src;
         this.dest=dest;
         this.amount=amount;
     }
-    public Transaction(int id,String src,String dest,double amount,String date,String time){
+    public Transaction(int id,long src,long dest,double amount,String date,String time){
         this.id=id;
         this.src=src;
         this.dest=dest;
@@ -23,10 +23,10 @@ public class Transaction {
     public void setId(int id){
         this.id=id;
     }
-    public void setSrc(String u){
+    public void setSrc(long u){
         this.src=u;
     }
-    public void setDest(String u){
+    public void setDest(long u){
         this.src=u;
     }
     public void setAmount(double amount){
@@ -41,10 +41,10 @@ public class Transaction {
     public int getId(){
         return id;
     }
-    public String getSrc(){
+    public long getSrc(){
         return src;
     }
-    public String getDest(){
+    public long getDest(){
         return dest;
     }
     public double getAmount(){

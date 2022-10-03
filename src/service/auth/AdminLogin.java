@@ -52,6 +52,11 @@ public class AdminLogin extends HttpServlet {
                 session.setAttribute("role", "admin");
                 resp.setStatus(200);
                 return;
+            }else{
+                resp.setStatus(400);
+                resp.setContentType("text/html");
+                out.println("Incorrect Password...");
+                return;
             }
             
         }catch(JSONException ex){
