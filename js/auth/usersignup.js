@@ -19,7 +19,7 @@ function userSignup(event){
         alert('All the fields are required...');
         return;
     }
-    fetch("user/signup",{
+    fetch("/bank1/auth/user/signup",{
         method:"POST",
         headers:{
             "Content-type":"application/json"

@@ -57,6 +57,8 @@ public class PdfConstructor extends PdfBean {
                     cell.add(new Paragraph(Double.toString((Double)o)));
                 }else if(o instanceof Integer){
                     cell.add(new Paragraph(Integer.toString((Integer)o)));
+                }else if(o instanceof Long){
+                    cell.add(new Paragraph(Long.toString((Long)o)));
                 }
                 table.addCell(cell);
             }

@@ -2,13 +2,15 @@ package com.dao;
 
 
 import java.util.*;
-
 import javax.transaction.TransactionManager;
-
 import com.Singleton.Singleton;
 import com.adventnet.ds.query.Column;
 import com.adventnet.ds.query.Criteria;
+import com.adventnet.ds.query.Join;
 import com.adventnet.ds.query.QueryConstants;
+import com.adventnet.ds.query.SelectQuery;
+import com.adventnet.ds.query.SelectQueryImpl;
+import com.adventnet.ds.query.Table;
 import com.adventnet.ds.query.UpdateQuery;
 import com.adventnet.ds.query.UpdateQueryImpl;
 import com.adventnet.mfw.bean.BeanUtil;
@@ -34,9 +36,8 @@ public class UserDao {
                 String lname = row.getString("LNAME");
                 String phone = row.getString("PHONE");
                 String email = row.getString("EMAIL");
-                String passwordHash = row.getString("PASSWORD");
                 Double balance = row.getBigDecimal("BALANCE").doubleValue();
-                User user = new User(accno, fname, lname, phone, email, passwordHash, balance);
+                User user = new User(accno, fname, lname, phone, email, balance);
                 users.add(user);
             }
             System.out.println(users.toString());
@@ -57,9 +58,8 @@ public class UserDao {
                 String fname = row.getString("FNAME");
                 String lname = row.getString("LNAME");
                 String phone = row.getString("PHONE");
-                String passwordHash = row.getString("PASSWORD");
                 Double balance = row.getBigDecimal("BALANCE").doubleValue();
-                u = new User(accno, fname, lname, phone, email, passwordHash, balance);
+                u = new User(accno, fname, lname, phone, email, balance);
             }
         }catch(DataAccessException ex){
             ex.printStackTrace();
@@ -78,9 +78,8 @@ public class UserDao {
                 String fname = row.getString("FNAME");
                 String lname = row.getString("LNAME");
                 String phone = row.getString("PHONE");
-                String passwordHash = row.getString("PASSWORD");
                 double balance = row.getBigDecimal("BALANCE").doubleValue();
-                u = new User(accno, fname, lname, phone, email, passwordHash, balance);
+                u = new User(accno, fname, lname, phone, email, balance);
             }
         }catch(DataAccessException ex){
             ex.printStackTrace();
@@ -102,26 +101,23 @@ public class UserDao {
         return false;
     }
     public boolean saveUser(User u){
-        // long accno = u.getAccno();
         String fname = u.getFname();
         String lname = u.getLname();
         String email = u.getEmail();
         String phone = u.getPhone();
-        String passwordHash = u.getPasswordHash();
+        // String passwordHash = u.getPasswordHash();
         Double balance = u.getBalance();
         DataObject dObj = new WritableDataObject();
         Row row = new Row("Users");
-        // row.set("ACCNO", accno);
         row.set("FNAME", fname);
         row.set("LNAME", lname);
         row.set("EMAIL", email);
         row.set("PHONE", phone);
-        row.set("PASSWORD", passwordHash);
+        // row.set("PASSWORD", passwordHash);
         row.set("BALANCE", balance);
         try {
-            Persistence p = (Persistence)BeanUtil.lookup("Persistence");
             dObj.addRow(row);
-            p.add(dObj);
+            DataAccess.add(dObj);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -134,12 +130,13 @@ public class UserDao {
         try{
             tm.begin();
             {
-                boolean s1 = this.saveUser(user);
                 UserSecretDao usdao = Singleton.getUserSecretDao();
+                LoginDao ldao = Singleton.getLoginDao();
                 UserDao udao = Singleton.getUserDao();
-                System.out.println(udao.getUserByEmail(user.getEmail()).getAccno());
-                boolean s2 = usdao.saveSecret(new UserSecret(udao.getUserByEmail(user.getEmail()).getAccno(), secret));
-                success = s1&&s2;
+                boolean s1 = ldao.addLogin(user);
+                boolean s2 = this.saveUser(user);
+                boolean s3 = usdao.saveSecret(new UserSecret(udao.getUserByEmail(user.getEmail()).getAccno(), secret));
+                success = s1&&s2&&s3;
                 if(success){
                     tm.commit();
                     return true;

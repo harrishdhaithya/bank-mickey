@@ -8,7 +8,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import com.Singleton.Singleton;
 import com.controller.Bank;
+import com.dao.UserDao;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,11 +29,8 @@ public class Withdraw extends HttpServlet {
         try {
             JSONObject obj = new JSONObject(sb.toString());
             double amount = Double.parseDouble(obj.getString("amount"));
-            HttpSession session = req.getSession(false);
-            if(session==null){
-                resp.sendRedirect("/bank");
-            }
-            long accno = Long.parseLong((String)session.getAttribute("accno"));
+            UserDao udao = Singleton.getUserDao();
+            long accno = udao.getUserByEmail(req.getRemoteUser()).getAccno();
             boolean success = Bank.withdraw(accno, amount);
             if(!success){
                 resp.setStatus(500);

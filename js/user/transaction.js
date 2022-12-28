@@ -22,7 +22,10 @@ function makeTransaction(event){
             if(resp.redirected){
                 location.href=resp.url;
             }
-            alert('Transaction Failed...');
+            alert('Something went wrong...');
+            resp.text().then((text)=>{
+                console.log(text);
+            })
         }
     }).catch(err=>alert(err));
 }

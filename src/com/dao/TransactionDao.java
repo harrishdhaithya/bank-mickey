@@ -17,7 +17,6 @@ import com.adventnet.persistence.DataObject;
 import com.adventnet.persistence.Persistence;
 import com.adventnet.persistence.Row;
 import com.adventnet.persistence.WritableDataObject;
-import com.adventnet.persistence.xml.Do2XmlConverter;
 import com.model.Transaction;
 import com.model.User;
 
@@ -58,6 +57,30 @@ public class TransactionDao {
                 Time time = r.getTime("TIME");
                 Transaction t = new Transaction(id, src, dest, amount, date, time.toString());
                 transactions.add(t);
+            }
+        }catch(DataAccessException ex){
+            ex.printStackTrace();
+        }
+        return transactions;
+   }
+   public List<Transaction> getTodaysTransByAccno(long accno){
+        List<Transaction> transactions = new ArrayList<>();
+        Criteria c = new Criteria(new Column("Transaction", "SRC"), accno, QueryConstants.EQUAL);
+        c.and(new Column("Transaction", "DATE"), Date.valueOf(LocalDate.now()),QueryConstants.EQUAL);
+        try{
+            DataObject dobj = DataAccess.get("Transaction", c);
+            Iterator<?> it = dobj.getRows("Transaction");
+            while (it.hasNext()) {
+                Row r = (Row)it.next();
+                int id = r.getLong("ID").intValue();
+                int src = r.getLong("SRC").intValue();
+                int dest = r.getLong("DEST").intValue();
+                double amount = r.getBigDecimal("AMOUNT").doubleValue();
+                Date date = r.getDate("DATE");
+                Time time = r.getTime("TIME");
+                Transaction transaction = new Transaction(id, src, dest, amount, date.toString(), time.toString());
+                System.out.println(transaction);
+                transactions.add(transaction);
             }
         }catch(DataAccessException ex){
             ex.printStackTrace();
@@ -119,15 +142,14 @@ public class TransactionDao {
         DataObject dObj = new WritableDataObject();
         try{
             dObj.addRow(row);
-            Persistence per = (Persistence)BeanUtil.lookup("Persistence");
-            per.add(dObj);
+            DataAccess.add(dObj);
             return true;
         }catch(Exception ex){
             System.out.println(ex.toString());
         }
         return false;
     }
-    public boolean performTransaction(User src,User dest,double amount) throws SQLException {
+    public boolean performTransaction(User src,User dest,double amount){
         TransactionManager trx = DataAccess.getTransactionManager();
         boolean success = false;
         try {
@@ -142,6 +164,9 @@ public class TransactionDao {
                     boolean s1 = udao.updateUser(src);
                     boolean s2 = udao.updateUser(dest);
                     boolean s3 = this.writeTransaction(src.getAccno(), dest.getAccno(), amount);
+                    System.out.println(s1);
+                    System.out.println(s2);
+                    System.out.println(s3);
                     success=s1&&s2&&s3;
                     if(success){
                         trx.commit();

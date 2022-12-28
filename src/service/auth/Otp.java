@@ -1,7 +1,6 @@
 package service.auth;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -10,9 +9,7 @@ import javax.servlet.http.HttpSession;
 import com.Singleton.Singleton;
 import com.controller.TwoFAAuth;
 import com.dao.UserDao;
-import com.dao.UserSecretDao;
 import com.model.User;
-import com.model.UserSecret;
 
 public class Otp extends HttpServlet {
     @Override
@@ -23,7 +20,7 @@ public class Otp extends HttpServlet {
         if(session==null){
             resp.setContentType("text/plain");
             resp.sendError(400,"Something went wrong...");
-            resp.sendRedirect("/bank/auth/usersignup.jsp");
+            resp.sendRedirect("/bank1/auth/usersignup.jsp");
             return;
         }
         String aotp = (String)session.getAttribute("otp");
@@ -32,6 +29,7 @@ public class Otp extends HttpServlet {
             String secret = TwoFAAuth.generateSecretKey();
             UserDao udao = Singleton.getUserDao();
             boolean success = udao.addUser(u, secret);
+            System.out.println(success);
             if(success){
                 resp.setContentType("text/plain");
                 session.invalidate();

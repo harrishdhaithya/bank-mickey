@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html"%>
-<%@ page import="com.model.Transaction,com.dao.TransactionDao,com.Singleton.Singleton,java.util.List"%>
+<%@ page import="com.model.Transaction,com.model.User,com.dao.TransactionDao,com.dao.UserDao,com.Singleton.Singleton,java.util.List"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,15 +11,6 @@
     
 </head>
 <body>
-    <%
-        if(session.getAttribute("name")==null){
-            response.sendRedirect("/bank1");
-        }else{
-            if(session.getAttribute("role").equals("admin")){
-                response.sendRedirect("/bank1/menu/adminmenu.jsp");
-            }
-        }
-    %>
     <div class="nav-bar">
         <div class="inner-content">
             <img src="../../img/logo.jpg" id="nav-img" alt="">
@@ -38,13 +29,16 @@
         <div class="container-body">
             <%
                 TransactionDao tdao = Singleton.getTransactionDao();
-                List<Transaction> transactions = tdao.getTransactionsByAccno((String)session.getAttribute("accno"));
+                UserDao udao = Singleton.getUserDao();
+                User user = udao.getUserByEmail(request.getRemoteUser());
+                long accno = user.getAccno();
+                List<Transaction> transactions = tdao.getTransactionsByAccno(accno);
                 for(Transaction t:transactions){
             %>
                 <div class="transaction-box">
                     <p>Transaction id: <%=t.getId()%></p>
-                    <p>Source Account Number: <%=t.getSrc()%></p>
-                    <p>Destination Account Number: <%=t.getDest()%></p>
+                    <p>Source Account Number: <%=Long.toString(t.getSrc())%></p>
+                    <p>Destination Account Number: <%=Long.toString(t.getDest())%></p>
                     <p>Amount: <%=t.getAmount()%></p>
                     <p>Date: <%=t.getDate()%></p>
                     <p>Time: <%=t.getTime()%></p>

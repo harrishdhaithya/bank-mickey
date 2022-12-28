@@ -9,15 +9,6 @@
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <%
-        if(session.getAttribute("name")==null){
-            response.sendRedirect("/bank1");
-        }else{
-            if(session.getAttribute("role").equals("admin")){
-                response.sendRedirect("/bank1/menu/adminmenu.jsp");
-            }
-        }
-    %>
     <div class="nav-bar">
         <div class="inner-content">
             <img src="../img/logo.jpg" id="nav-img" alt="">
@@ -31,7 +22,7 @@
     </div>
     <div class="container">
         <div class="container-header">
-            Welcome <%=session.getAttribute("name")%>
+            Welcome 
         </div>
         <div class="container-body">
             <form action="/bank1/actions/user/viewBalance.jsp" method="get">

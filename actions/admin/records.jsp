@@ -11,16 +11,6 @@
     <script src="../../js/admin/records.js"></script>
 </head>
 <body>
-    
-    <%
-        if(session.getAttribute("name")==null){
-            response.sendRedirect("/bank1");
-        }else{
-            if(session.getAttribute("role").equals("user")){
-                response.sendRedirect("/bank1/menu/usermenu.jsp");
-            }
-        }
-    %>
     <div class="loading-screen hide-box" id="loading">
         <p class="loading-text">Loading...</p>
     </div>

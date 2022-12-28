@@ -11,15 +11,6 @@
     <script src="../../js/admin/searchuser.js"></script>
 </head>
 <body>
-    <%
-        if(session.getAttribute("name")==null){
-            response.sendRedirect("/bank1");
-        }else{
-            if(session.getAttribute("role").equals("user")){
-                response.sendRedirect("/bank1/menu/usermenu.jsp");
-            }
-        }
-    %>
     <div class="nav-bar">
         <div class="inner-content">
             <img src="../../img/logo.jpg" id="nav-img" alt="">

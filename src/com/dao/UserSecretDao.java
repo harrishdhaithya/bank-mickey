@@ -22,9 +22,8 @@ public class UserSecretDao {
         r.set("SECRET", secret); 
         DataObject dobj = new WritableDataObject();
         try {
-            Persistence per = (Persistence)BeanUtil.lookup("Persistence");
             dobj.addRow(r);
-            per.add(dobj);
+            DataAccess.add(dobj);
             return true;
         } catch (Exception e) {
             e.printStackTrace();

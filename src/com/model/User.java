@@ -1,48 +1,41 @@
 package com.model;
 
-import java.util.Random;
 import org.apache.commons.codec.digest.DigestUtils;
 
-public class User {
-	// private UUID accno;
+public class User extends Login {
 	private long accno;
 	private String fname;
 	private String lname;
 	private String phone;
 	private String email;
 	private double balance;
-	private String passwordHash;
 	public User(String fname, String lname, String phone, String email, String password, double balance) {
-		// this.accno = UUID.randomUUID();
+		super(email,getHash(password),"user");
 		this.fname = fname;
 		this.lname = lname;
 		this.phone = phone;
 		this.email = email;
-//		this.password = password;
 		this.balance = balance;
-		this.passwordHash = getHash(password);
 	}
-	public User(long accno, String fname, String lname, String phone, String email,String passwordHash, double balance) {
+	
+	public User(double accno, String fname, String lname, String phone, String email, String password, double balance) {
+		super(email,password,"user");
+		this.fname = fname;
+		this.lname = lname;
+		this.phone = phone;
+		this.email = email;
+		this.balance = balance;
+	}
+	
+	public User(long accno, String fname, String lname, String phone, String email, double balance) {
+		super();
 		this.accno = accno;
 		this.fname = fname;
 		this.lname = lname;
 		this.phone = phone;
 		this.email = email;
 		this.balance = balance;
-		this.passwordHash = passwordHash;
 		
-	}
-	private static String getHash(String password) {
-		String hash = DigestUtils.sha256Hex(password);
-		return hash;
-	}
-	private static String createAccNo(){
-		String accno = "";
-		Random rand = new Random();
-		for(int i=0;i<10;i++){
-			accno+=rand.nextInt(10);
-		}
-		return accno;
 	}
 	public String getFname() {
 		return fname;
@@ -77,11 +70,9 @@ public class User {
 	public void setBalance(double balance) {
 		this.balance = balance;
 	}
-	public String getPasswordHash() {
-		return passwordHash;
-	}
-	public boolean evalPassword(String password) {
-		return this.passwordHash.equals(getHash(password));
+	private static String getHash(String password) {
+		String hash = DigestUtils.sha256Hex(password);
+		return hash;
 	}
 	@Override
 	public String toString() {

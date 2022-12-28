@@ -2,6 +2,7 @@ package com.Singleton;
 
 import com.dao.AdminDao;
 import com.dao.AdminSecretDao;
+import com.dao.LoginDao;
 import com.dao.TransactionDao;
 import com.dao.UserDao;
 import com.dao.UserSecretDao;
@@ -12,6 +13,7 @@ public class Singleton {
     private static final UserDao udao = new UserDao();
     private static final UserSecretDao usec = new UserSecretDao();
     private static final TransactionDao tdao = new TransactionDao();
+    private static final LoginDao ldao = new LoginDao();
     public static AdminDao getAdminDao(){
         return adao;
     }
@@ -26,5 +28,8 @@ public class Singleton {
     }
     public static TransactionDao getTransactionDao(){
         return tdao;
+    }
+    public static LoginDao getLoginDao(){
+        return ldao;
     }
 }

@@ -11,15 +11,6 @@
     <script src="../../js/admin/transactionbyaccno.js"></script>
 </head>
 <body>
-    <%
-        if(session.getAttribute("name")==null){
-            response.sendRedirect("/bank");
-        }else{
-            if(session.getAttribute("role").equals("user")){
-                response.sendRedirect("/bank/menu/usermenu.jsp");
-            }
-        }
-    %>
     <div class="nav-bar">
         <div class="inner-content">
             <img src="../../img/logo.jpg" id="nav-img" alt="">

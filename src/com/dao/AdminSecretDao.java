@@ -4,11 +4,9 @@ import java.util.Iterator;
 import com.adventnet.ds.query.Column;
 import com.adventnet.ds.query.Criteria;
 import com.adventnet.ds.query.QueryConstants;
-import com.adventnet.mfw.bean.BeanUtil;
 import com.adventnet.persistence.DataAccess;
 import com.adventnet.persistence.DataAccessException;
 import com.adventnet.persistence.DataObject;
-import com.adventnet.persistence.Persistence;
 import com.adventnet.persistence.Row;
 import com.adventnet.persistence.WritableDataObject;
 import com.model.AdminSecret;
@@ -22,9 +20,8 @@ public class AdminSecretDao {
             row.set("SECRET",secret);
             DataObject dObj = new WritableDataObject();
         try{
-            Persistence per = (Persistence)BeanUtil.lookup("Persistence");
             dObj.addRow(row);
-            per.add(dObj);
+            DataAccess.add(dObj);
             return true;
         }catch(Exception ex){
             ex.printStackTrace();

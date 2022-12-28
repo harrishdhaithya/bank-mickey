@@ -11,15 +11,6 @@
     
 </head>
 <body>
-    <%
-        if(session.getAttribute("name")==null){
-            response.sendRedirect("/bank1");
-        }else{
-            if(session.getAttribute("role").equals("user")){
-                response.sendRedirect("/bank1/menu/usermenu.jsp");
-            }
-        }
-    %>
     <div class="nav-bar">
         <div class="inner-content">
             <img src="../../img/logo.jpg" id="nav-img" alt="">
@@ -43,8 +34,8 @@
            %>
                 <div class="transaction-box">
                     <p>Transaction id: <%=t.getId()%></p>
-                    <p>Source Account Number: <%=t.getSrc()%></p>
-                    <p>Destination Account Number: <%=t.getDest()%></p>
+                    <p>Source Account Number: <%=Long.toString(t.getSrc())%></p>
+                    <p>Destination Account Number: <%=Long.toString(t.getDest())%></p>
                     <p>Amount: <%=t.getAmount()%></p>
                     <p>Date: <%=t.getDate()%></p>
                     <p>Time: <%=t.getTime()%></p>

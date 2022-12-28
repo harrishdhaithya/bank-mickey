@@ -1,8 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" 
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
         http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" 
 version="2.5">
+    <security-constraint>
+		  <web-resource-collection>
+		    <web-resource-name>Admin</web-resource-name>
+		    <url-pattern>/actions/admin/*</url-pattern>
+		  </web-resource-collection>
+		  <web-resource-collection>
+		    <web-resource-name>AdminHome</web-resource-name>
+		    <url-pattern>/menu/adminmenu.jsp</url-pattern>
+		  </web-resource-collection>
+		  <auth-constraint>
+		    <role-name>admin</role-name>
+		  </auth-constraint>
+	</security-constraint>
+    <security-constraint>
+		  <web-resource-collection>
+		    <web-resource-name>User</web-resource-name>
+		    <url-pattern>/actions/user/*</url-pattern>
+		  </web-resource-collection>
+		  <web-resource-collection>
+		    <web-resource-name>UserHome</web-resource-name>
+		    <url-pattern>/menu/usermenu.jsp</url-pattern>
+		  </web-resource-collection>
+		  <auth-constraint>
+		    <role-name>user</role-name>
+		  </auth-constraint>
+	</security-constraint>
     <session-config>
         <session-timeout>30</session-timeout> 
         <cookie-config>
@@ -10,12 +37,12 @@ version="2.5">
         </cookie-config>
     </session-config>
     <servlet>
-        <servlet-name>adminauth</servlet-name>
-        <servlet-class>service.auth.AdminLogin</servlet-class>
+        <servlet-name>auth</servlet-name>
+        <servlet-class>service.auth.LoginServ</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>adminauth</servlet-name>
-        <url-pattern>/auth/admin/login</url-pattern>
+        <servlet-name>auth</servlet-name>
+        <url-pattern>/auth/login</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>usersignup</servlet-name>
@@ -24,14 +51,6 @@ version="2.5">
     <servlet-mapping>
         <servlet-name>usersignup</servlet-name>
         <url-pattern>/auth/user/signup</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>userauth</servlet-name>
-        <servlet-class>service.auth.UserLogin</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>userauth</servlet-name>
-        <url-pattern>/auth/user/login</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>logout</servlet-name>
@@ -82,14 +101,14 @@ version="2.5">
         <url-pattern>/record/generate</url-pattern>
     </servlet-mapping>
     <!-- Google Login -->
-     <servlet>
+     <!-- <servlet>
         <servlet-name>googlelogin</servlet-name>
         <servlet-class>service.googleauth.GoogleLogin</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>googlelogin</servlet-name>
         <url-pattern>/login/google</url-pattern>
-    </servlet-mapping>
+    </servlet-mapping> -->
     <!-- Admin Signup -->
     <servlet>
         <servlet-name>adminsignup</servlet-name>
@@ -99,13 +118,14 @@ version="2.5">
         <servlet-name>adminsignup</servlet-name>
         <url-pattern>/auth/admin/signup</url-pattern>
     </servlet-mapping>
-    <!-- Test -->
-    <servlet>
-        <servlet-name>test</servlet-name>
-        <servlet-class>service.user.Test</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>test</servlet-name>
-        <url-pattern>/test</url-pattern>
-    </servlet-mapping>
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <form-login-config>
+            <form-login-page>/auth/login.jsp</form-login-page>
+        </form-login-config>
+    </login-config>
+    <security-role>
+        <role-name>AccessAllTables</role-name>
+        <role-name>user</role-name>
+    </security-role>
 </web-app>

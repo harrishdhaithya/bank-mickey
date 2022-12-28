@@ -60,7 +60,7 @@ public class SignUp extends HttpServlet{
             boolean success = Otp.mailOTP(OTP,email);
             if(success){
                 resp.setStatus(200);
-                resp.sendRedirect("/bank/auth/otp.jsp");
+                resp.sendRedirect("/bank1/auth/otp.jsp");
                 return;
             }else{
                 session.invalidate();

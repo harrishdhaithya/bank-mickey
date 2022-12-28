@@ -10,15 +10,6 @@
     <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
-    <%
-        if(session.getAttribute("name")==null){
-            response.sendRedirect("/bank1");
-        }else{
-            if(session.getAttribute("role").equals("admin")){
-                response.sendRedirect("/bank1/menu/adminmenu.jsp");
-            }
-        }
-    %>
     <div class="nav-bar">
         <div class="inner-content">
             <img src="../../img/logo.jpg" id="nav-img" alt="">
@@ -37,7 +28,7 @@
         <div class="container-body">
             <%
                 UserDao udao = Singleton.getUserDao();
-                User user = udao.getUserByAccno((String)session.getAttribute("accno"));
+                User user = udao.getUserByEmail(request.getRemoteUser());
             %>
             <h2>Name: <%=user.getFname()+" "+user.getLname()%></h2>
             <h2>Account Number: <%=user.getAccno()%></h2>

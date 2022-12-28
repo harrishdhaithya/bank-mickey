@@ -74,6 +74,8 @@ public class XlsxConstructor extends XlsxBean {
                     cell.setCellValue((int)o);
                 }else if(o instanceof Double){
                     cell.setCellValue((double)o);
+                }else if(o instanceof Long){
+                    cell.setCellValue((Long)o);
                 }
             }
             col=0;

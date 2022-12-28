@@ -9,15 +9,6 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <%
-        if(session.getAttribute("name")!=null){
-            if(session.getAttribute("role").equals("admin")){
-                response.sendRedirect("menu/adminmenu.jsp");
-            }else{
-                response.sendRedirect("menu/usermenu.jsp");
-            }
-        }
-    %>
     <div class="nav-bar">
         <div class="inner-content">
             <img src="img/logo.jpg" id="nav-img" alt="">
@@ -31,14 +22,9 @@
             Welcome
         </div>
         <div class="container-body">
-            <form action="auth/adminlogin.jsp" method="get">
+            <form action="auth/login.jsp" method="get">
                 <button type="submit" class="container-btn">
-                    Admin Login
-                </button>
-            </form>
-            <form action="auth/userlogin.jsp" method="get">
-                <button type="submit" class="container-btn">
-                    User Login
+                    Login
                 </button>
             </form>
             <form action="auth/usersignup.jsp" method="get">

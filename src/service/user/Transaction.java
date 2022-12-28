@@ -7,8 +7,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import com.Singleton.Singleton;
 import com.controller.Bank;
+import com.dao.UserDao;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,21 +27,14 @@ public class Transaction extends HttpServlet{
             JSONObject obj = new JSONObject(sb.toString());
             String to = obj.getString("accno");
             double amount = Double.parseDouble(obj.getString("amount"));
-            HttpSession session = req.getSession(false);
             if(to==null){
                 resp.setStatus(400);
                 resp.setContentType("text/html");
                 out.println("All the fields are required...");
                 return;
             }
-            if(session==null){
-                resp.setStatus(400);
-                resp.setContentType("text/html");
-                System.out.println("Redirect...");
-                resp.sendRedirect("/bank");
-                return;
-            }
-            long from = Long.parseLong((String)session.getAttribute("accno"));
+            UserDao udao = Singleton.getUserDao();
+            long from = udao.getUserByEmail(req.getRemoteUser()).getAccno();
             boolean success = Bank.makeTransaction(from, Long.parseLong(to), amount);
             if(success){
                 resp.setStatus(200);
@@ -51,7 +45,7 @@ public class Transaction extends HttpServlet{
                 resp.setContentType("text/plain");
                 out.println("Transaction Failed...");
             }
-        }catch(JSONException E){
+        }catch(JSONException e){
             resp.setStatus(200);
             resp.setContentType("text/plain");
             out.println("Illegal format...");

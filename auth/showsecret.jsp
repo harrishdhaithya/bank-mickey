@@ -38,7 +38,7 @@
             <p class="user-box">
                 <%=(String)request.getParameter("secret")%>
             </p>
-            <form action="/bank1/auth/userlogin.jsp">
+            <form action="/bank1/auth/login.jsp">
                 <input type="submit" value="Login" class="form-submit-btn">
             </form>
         </div>

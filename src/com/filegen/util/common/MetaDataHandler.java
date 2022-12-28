@@ -85,5 +85,3 @@ public class MetaDataHandler {
         return title;
     }
 }
-    
-

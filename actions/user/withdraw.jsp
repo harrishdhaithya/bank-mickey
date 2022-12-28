@@ -11,15 +11,6 @@
     <script src="../../js/user/withdraw.js"></script>
 </head>
 <body>
-    <%
-        if(session.getAttribute("name")==null){
-            response.sendRedirect("/bank1");
-        }else{
-            if(session.getAttribute("role").equals("admin")){
-                response.sendRedirect("/bank1/menu/adminmenu.jsp");
-            }
-        }
-    %>
     <div class="nav-bar">
         <div class="inner-content">
             <img src="../../img/logo.jpg" id="nav-img" alt="">

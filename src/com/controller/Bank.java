@@ -44,6 +44,8 @@ public class Bank {
 	}
 	public static boolean makeTransaction(long srcacc,long to,double amount) {
 		UserDao u = Singleton.getUserDao();
+		System.out.println(srcacc);
+		System.out.println(to);
 		if(srcacc==to){
 			return false;
 		}
