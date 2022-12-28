@@ -44,8 +44,6 @@ public class Bank {
 	}
 	public static boolean makeTransaction(long srcacc,long to,double amount) {
 		UserDao u = Singleton.getUserDao();
-		System.out.println(srcacc);
-		System.out.println(to);
 		if(srcacc==to){
 			return false;
 		}
@@ -56,6 +54,9 @@ public class Bank {
 		}
 		TransactionDao tdao = Singleton.getTransactionDao();
 		try{
+			System.out.println(src);
+			System.out.println(dest);
+			System.out.println(amount);
 			return tdao.performTransaction(src, dest, amount);
 		}catch(Exception e){
 			System.out.println(e);

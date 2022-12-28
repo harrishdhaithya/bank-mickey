@@ -13,7 +13,6 @@ public class RecordMetaData {
             reader = new FileReader("../webapps/bank1/records/metadata/format.json");
             data = (JSONObject)parser.parse(reader);
             jsonString = data.toString();
-            System.out.println(jsonString);
         } catch (Exception e) {
             e.printStackTrace();
         }

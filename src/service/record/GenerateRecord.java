@@ -38,6 +38,8 @@ public class GenerateRecord extends HttpServlet {
         if(filter.equals("date")){
             String from = req.getParameter("from");
             String to = req.getParameter("to");
+            System.out.println(from);
+            System.out.println(to);
             if(from==null||to==null){
                 resp.setStatus(400);
                 resp.setContentType("text/plain");

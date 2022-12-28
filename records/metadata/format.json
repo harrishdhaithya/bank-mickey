@@ -38,7 +38,7 @@
             "Title":"Admin Records",
             "data":["Total Admins"],
             "labels":["Employee Id","Name","Email","Phone"],
-            "filter":{}
+            "filters":{}
         }
 	}
 }

@@ -13,12 +13,12 @@ import com.model.AdminSecret;
 
 public class AdminSecretDao {
     public boolean saveSecret(AdminSecret a){
-            long empid = a.getEmpid();
-            String secret = a.getSecret();
-            Row row = new Row("AdminSecret");
-            row.set("EMPID", empid);
-            row.set("SECRET",secret);
-            DataObject dObj = new WritableDataObject();
+        long empid = a.getEmpid();
+        String secret = a.getSecret();
+        Row row = new Row("AdminSecret");
+        row.set("EMPID", empid);
+        row.set("SECRET",secret);
+        DataObject dObj = new WritableDataObject();
         try{
             dObj.addRow(row);
             DataAccess.add(dObj);

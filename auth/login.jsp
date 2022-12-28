@@ -8,13 +8,8 @@
     <title>Bank Application</title>
     <link rel="stylesheet" href="/bank1/css/style.css">
     <script src="/bank1/js/auth/login.js"></script>
-    <!-- <script src="https://accounts.google.com/gsi/client" async defer></script> -->
 </head>
 <body>
-    <!-- <div id="g_id_onload"
-         data-client_id="197367929483-vq25me73peq3kro6h00sbj2k7gln3pvu.apps.googleusercontent.com"
-         data-callback="handleCredentialResponse">
-    </div> -->
     <div class="nav-bar">
         <div class="inner-content">
             <img src="/bank1/img/logo.jpg" id="nav-img" alt="">
@@ -40,7 +35,6 @@
                 <input type="submit" class="form-submit-btn" >
             </form>
             <button class="form-submit-btn" onclick="location.href='/bank1'">Home</button>
-            <!-- <div class="g_id_signin google-signin" data-type="standard"></div> -->
         </div>
     </div>
 </body>

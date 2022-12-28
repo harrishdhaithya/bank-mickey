@@ -29,6 +29,7 @@ public class EvalAuth extends HttpServlet {
             session.removeAttribute("email");
             session.removeAttribute("password");
             session.removeAttribute("secret");
+            req.getSession(true);
             req.login(email, password);
             if(req.isUserInRole("admin")){
                 resp.sendRedirect("/bank1/menu/adminmenu.jsp");

@@ -2,6 +2,8 @@ package com.model;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
+import com.google.gson.annotations.SerializedName;
+
 public class User extends Login {
 	private long accno;
 	private String fname;
@@ -74,13 +76,11 @@ public class User extends Login {
 		String hash = DigestUtils.sha256Hex(password);
 		return hash;
 	}
-	@Override
-	public String toString() {
-		return "Account Number: "+accno+"\n"+
-				"Name: "+fname+" "+lname+"\n"+
-				"Email: "+email+"\n"+
-				"Phone Number: "+phone+"\n"+
-				"Balance: "+balance
-				;
-	}
+
+    @Override
+    public String toString() {
+        return "User [accno=" + accno + ", fname=" + fname + ", lname=" + lname + ", phone=" + phone + ", email="
+                + email + ", balance=" + balance + "]";
+    }
+	
 }
