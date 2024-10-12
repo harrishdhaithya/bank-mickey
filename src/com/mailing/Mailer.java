@@ -27,7 +27,7 @@ public class Mailer {
             session = Session.getInstance(prop, new Authenticator() {
                 @Override
                 protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication("harrishdhaithya@gmail.com", "cgnhdntrxfakuycp");
+                    return new PasswordAuthentication(System.getProperty("email"), System.getProperty("password"));
                 }
             });
         }
@@ -36,7 +36,7 @@ public class Mailer {
     public static boolean sendMail(String to,String subject,String text){
         try {
 			MimeMessage message = new MimeMessage(getSession());
-			message.setFrom(new InternetAddress("harrishdhaithya@gmail.com"));
+			message.setFrom(new InternetAddress(System.getProperty("email")));
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 			message.setSubject(subject);
 			message.setText(text);
